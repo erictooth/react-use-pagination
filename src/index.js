@@ -1,14 +1,15 @@
+//@flow
 import * as React from "react";
 
-const getPreviousEnabled = currentPage => currentPage > 0;
+const getPreviousEnabled = (currentPage: number) => currentPage > 0;
 
-const getNextEnabled = (currentPage, totalPages) => currentPage + 1 < totalPages;
+const getNextEnabled = (currentPage: number, totalPages: number) => currentPage + 1 < totalPages;
 
-const getTotalPages = (totalItems, pageSize) => Math.ceil(totalItems / pageSize);
+const getTotalPages = (totalItems: number, pageSize: number) => Math.ceil(totalItems / pageSize);
 
-const getStartIndex = (pageSize, currentPage) => pageSize * currentPage;
+const getStartIndex = (pageSize: number, currentPage: number) => pageSize * currentPage;
 
-const getEndIndex = (pageSize, currentPage, totalItems) => {
+const getEndIndex = (pageSize: number, currentPage: number, totalItems: number) => {
     const lastPageEndIndex = pageSize * (currentPage + 1);
 
     if (lastPageEndIndex > totalItems) {
@@ -18,7 +19,15 @@ const getEndIndex = (pageSize, currentPage, totalItems) => {
     return lastPageEndIndex - 1;
 };
 
-export const getPaginationState = ({ totalItems, pageSize, currentPage }) => {
+const getPaginationState = ({
+    totalItems,
+    pageSize,
+    currentPage,
+}: {
+    totalItems: number,
+    pageSize: number,
+    currentPage: number,
+}) => {
     const totalPages = getTotalPages(totalItems, pageSize);
     return {
         totalPages,
@@ -29,27 +38,40 @@ export const getPaginationState = ({ totalItems, pageSize, currentPage }) => {
     };
 };
 
-export function usePagination({ totalItems = 0, initialPage = 0, initialPageSize = 0 }) {
-    const [pageSize, setPageSize] = React.useState(initialPageSize);
+type CurrentPageReducerActions = {| type: "SET", page: number |} | {| type: "NEXT" | "PREV" |};
 
-    const [currentPage, dispatch] = React.useReducer((state, action) => {
-        switch (action.type) {
-            case "SET":
-                return action.page;
-            case "NEXT":
-                if (!getNextEnabled(state, getTotalPages(totalItems, pageSize))) {
+function usePagination({
+    totalItems = 0,
+    initialPage = 0,
+    initialPageSize = 0,
+}: {
+    totalItems?: number,
+    initialPage?: number,
+    initialPageSize?: number,
+} = {}) {
+    const [pageSize, setPageSize] = React.useState<number>(initialPageSize);
+
+    const [currentPage, dispatch] = React.useReducer<number, CurrentPageReducerActions>(
+        (state = initialPage, action = {}) => {
+            switch (action.type) {
+                case "SET":
+                    return action.page;
+                case "NEXT":
+                    if (!getNextEnabled(state, getTotalPages(totalItems, pageSize))) {
+                        return state;
+                    }
+                    return state + 1;
+                case "PREV":
+                    if (!getPreviousEnabled(state)) {
+                        return state;
+                    }
+                    return state - 1;
+                default:
                     return state;
-                }
-                return state + 1;
-            case "PREV":
-                if (!getPreviousEnabled(state)) {
-                    return state;
-                }
-                return state - 1;
-            default:
-                return state;
-        }
-    }, initialPage);
+            }
+        },
+        initialPage
+    );
 
     const paginationState = React.useMemo(
         () => getPaginationState({ totalItems, pageSize, currentPage }),
@@ -58,7 +80,7 @@ export function usePagination({ totalItems = 0, initialPage = 0, initialPageSize
 
     return {
         setPage: React.useCallback(
-            page => {
+            (page: number) => {
                 dispatch({
                     type: "SET",
                     page,
@@ -73,7 +95,7 @@ export function usePagination({ totalItems = 0, initialPage = 0, initialPageSize
             dispatch({ type: "PREV" });
         }, [dispatch]),
         setPageSize: React.useCallback(
-            (pageSize, nextPage = 0) => {
+            (pageSize: number, nextPage?: number = 0) => {
                 setPageSize(pageSize);
                 dispatch({ type: "SET", page: nextPage });
             },
@@ -85,10 +107,23 @@ export function usePagination({ totalItems = 0, initialPage = 0, initialPageSize
     };
 }
 
-function Pagination({ children, totalItems = 0, initialPage = 0, initialPageSize }) {
+type PaginationProps = {|
+    children: ($Call<typeof usePagination>) => React.Node,
+    totalItems?: number,
+    initialPage?: number,
+    initialPageSize: number,
+|};
+
+function Pagination({
+    children,
+    totalItems = 0,
+    initialPage = 0,
+    initialPageSize,
+}: PaginationProps) {
     return children(usePagination({ totalItems, initialPage, initialPageSize }));
 }
 
 Pagination.displayName = "Pagination";
 
+export { getPaginationState, usePagination };
 export default Pagination;
