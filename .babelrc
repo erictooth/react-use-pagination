@@ -1,11 +1,5 @@
 {
-    "presets": [
-        [
-            "@babel/preset-env",
-            { "targets": { "node": 8 }, "forceAllTransforms": true, "modules": false }
-        ],
-        "@babel/preset-react"
-    ],
+    "presets": ["@babel/preset-react"],
     "plugins": [
         "@babel/plugin-transform-flow-comments",
         "@babel/plugin-proposal-object-rest-spread"
