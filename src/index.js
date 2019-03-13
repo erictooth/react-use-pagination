@@ -103,6 +103,7 @@ function usePagination({
         ),
         currentPage,
         pageSize,
+        totalItems,
         ...paginationState,
     };
 }
