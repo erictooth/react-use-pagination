@@ -1,4 +1,4 @@
-<img src='https://github.com/erictooth/react-use-pagination/raw/master/media/react-use-pagination.png' height='75' width='581' alt='React Use Pagination' />
+<img src='https://github.com/erictooth/react-use-pagination/raw/master/media/react-use-pagination.png' height='57' width='431' alt='React Use Pagination' />
 
 A React hook to help manage pagination state and calculations.
 
