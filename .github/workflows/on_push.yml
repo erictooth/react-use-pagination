@@ -1,0 +1,28 @@
+name: Build & Test
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: npm install
+        run: npm ci
+      - name: ts check
+        run: ./node_modules/.bin/tsc --noEmit
+      - name: lint
+        run: npm run lint
+      - name: tests
+        run: npm run test
+      - name: build succeeds
+        run: npm run build:pika
