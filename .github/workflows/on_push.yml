@@ -18,11 +18,5 @@ jobs:
           node-version: 12
       - name: npm install
         run: npm ci
-      - name: ts check
-        run: ./node_modules/.bin/tsc --noEmit
-      - name: lint
-        run: npm run lint
-      - name: tests
-        run: npm run test
       - name: build succeeds
-        run: npm run build:pika
+        run: npm run build
