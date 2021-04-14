@@ -41,7 +41,7 @@ export const getPaginationState = ({
 
 type CurrentPageReducerActions = React.Reducer<
     number,
-    Partial<{ type: "SET"; page: number } | { type: "NEXT" | "PREV" }>
+    { type: "SET"; page: number } | { type: "NEXT" | "PREV" }
 >;
 
 export function usePagination({
@@ -56,6 +56,7 @@ export function usePagination({
     const [pageSize, setPageSize] = React.useState<number>(initialPageSize);
 
     const [currentPage, dispatch] = React.useReducer<CurrentPageReducerActions>(
+        // @ts-ignore
         (state = initialPage, action = {}) => {
             switch (action.type) {
                 case "SET":

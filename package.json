@@ -10,7 +10,7 @@
     ],
     "sideEffects": false,
     "scripts": {
-        "build": "pika build"
+        "build": "pika-pack build"
     },
     "author": "Eric Mantooth",
     "license": "MIT",
@@ -31,7 +31,7 @@
         ]
     },
     "peerDependencies": {
-        "react": "^16.8.0 || ^17.0.0"
+        "react": ">=16.8.0"
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
