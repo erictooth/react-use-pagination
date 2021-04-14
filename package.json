@@ -12,6 +12,13 @@
     "scripts": {
         "build": "pika-pack build"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/erictooth/react-use-pagination.git"
+    },
+    "bugs": {
+        "url": "https://github.com/erictooth/react-use-pagination/issues"
+    },
     "author": "Eric Mantooth",
     "license": "MIT",
     "@pika/pack": {
