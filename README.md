@@ -94,7 +94,7 @@ type PaginationState = {
 
 ```jsx
   const [data] = React.useState(["apple", "banana", "cherry"]);
-  const { startIndex, endIndex } = React.usePagination({ totalItems: data.length, initialPageSize: 1 });
+  const { startIndex, endIndex } = usePagination({ totalItems: data.length, initialPageSize: 1 });
   
   return <ul>{data.slice(startIndex, endIndex).map(item => <li>{item}</li>)}</ul>
 ```
@@ -107,7 +107,7 @@ type PaginationState = {
   const [length, setLength] = React.useState(0);
   
   // Pagination hook
-  const { startIndex, pageSize } = React.usePagination({ totalItems: length, initialPageSize: 1 });
+  const { startIndex, pageSize } = usePagination({ totalItems: length, initialPageSize: 1 });
   
   // Fetch Data
   const [_, data] = usePromise(React.useCallback(() => fetchUsers({ offset: startIndex, limit: pageSize }), [startIndex, pageSize]));
