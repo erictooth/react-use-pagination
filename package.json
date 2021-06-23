@@ -1,19 +1,27 @@
 {
   "name": "react-use-pagination",
   "version": "1.1.1",
-  "description": "",
+  "description": "A React hook to help manage pagination state",
   "keywords": [
     "pagination",
     "paging",
     "pager",
     "table"
   ],
+  "author": "erictooth",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erictooth/react-use-pagination.git"
+  },
+  "homepage": "https://github.com/erictooth/react-use-pagination/blob/master/README.md",
+  "bugs": {
+    "url": "https://github.com/erictooth/react-use-pagination/issues"
+  },
   "sideEffects": false,
   "scripts": {
     "build": "pack build"
   },
-  "author": "Eric Mantooth",
-  "license": "MIT",
   "@pika/pack": {
     "pipeline": [
       [
@@ -28,7 +36,7 @@
     ]
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17 || ^18"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -40,7 +48,6 @@
     "@pika/plugin-build-node": "^0.3.9",
     "@pika/plugin-build-web": "^0.3.9",
     "@pika/plugin-standard-pkg": "^0.3.9",
-    "flow-bin": "^0.93.0",
-    "react": "^16.8.0"
+    "flow-bin": "^0.93.0"
   }
 }
