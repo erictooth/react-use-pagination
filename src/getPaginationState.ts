@@ -19,6 +19,14 @@ export const getEndIndex = (pageSize: number, currentPage: number, totalItems: n
     return lastPageEndIndex - 1;
 };
 
+export type PaginationState = {
+    totalPages: number;
+    startIndex: number;
+    endIndex: number;
+    previousEnabled: boolean;
+    nextEnabled: boolean;
+};
+
 export const getPaginationState = ({
     totalItems,
     pageSize,
@@ -27,7 +35,7 @@ export const getPaginationState = ({
     totalItems: number;
     pageSize: number;
     currentPage: number;
-}) => {
+}): PaginationState => {
     const totalPages = getTotalPages(totalItems, pageSize);
     return {
         totalPages,
