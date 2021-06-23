@@ -1,6 +1,12 @@
-import { useCallback, useMemo, useReducer } from "react";
+import { useCallback, useEffect, useMemo, useRef, useReducer } from "react";
 import { getPaginationMeta, PaginationState, PaginationMeta } from "./getPaginationMeta";
 import { paginationStateReducer } from "./paginationStateReducer";
+
+type UsePaginationConfig = {
+    totalItems?: number;
+    initialPage?: number;
+    initialPageSize?: number;
+};
 
 type PaginationActions = {
     setPage: (page: number) => void;
@@ -13,11 +19,7 @@ export function usePagination({
     totalItems = 0,
     initialPage = 0,
     initialPageSize = 0,
-}: {
-    totalItems?: number;
-    initialPage?: number;
-    initialPageSize?: number;
-} = {}): PaginationState & PaginationMeta & PaginationActions {
+}: UsePaginationConfig = {}): PaginationState & PaginationMeta & PaginationActions {
     const initialState = {
         totalItems,
         pageSize: initialPageSize,
@@ -25,6 +27,19 @@ export function usePagination({
     };
 
     const [paginationState, dispatch] = useReducer(paginationStateReducer, initialState);
+
+    const totalItemsRef = useRef(totalItems);
+    totalItemsRef.current = totalItems;
+
+    useEffect(() => {
+        return () => {
+            if (typeof totalItemsRef.current !== "number" || totalItems === totalItemsRef.current) {
+                return;
+            }
+
+            dispatch({ type: "SET_TOTALITEMS", totalItems: totalItemsRef.current });
+        };
+    }, [totalItems]);
 
     return {
         ...paginationState,
