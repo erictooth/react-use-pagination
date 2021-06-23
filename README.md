@@ -1,10 +1,23 @@
-<img src='https://github.com/erictooth/react-use-pagination/raw/master/media/react-use-pagination.png' height='57' width='431' alt='React Use Pagination' />
+<div align="center">
+  <img src='https://github.com/erictooth/react-use-pagination/raw/master/media/react-use-pagination.png' width="50%" alt='react-use-pagination' />
+</div>
 
-A React hook to help manage pagination state and calculations.
+<h3 align="center">A React hook to help manage pagination state</h3>
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/erictooth/react-smart-promise/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react-use-pagination.svg?style=flat-square)](https://www.npmjs.com/package/react-use-pagination) ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square) ![bundle size](https://badgen.net/bundlephobia/minzip/react-use-pagination@latest)
-
-Try the other libaries in the series! [React Stateful Tabs](https://github.com/erictooth/react-stateful-tabs), [React Smart Promise](https://github.com/erictooth/react-smart-promise), [React Accessible Form](https://github.com/erictooth/react-accessible-form)
+<p align="center">
+  <a href="https://github.com/erictooth/react-use-pagination/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License">
+  </a>
+  <a href="https://www.npmjs.com/package/react-use-pagination">
+    <img src="https://img.shields.io/npm/v/react-use-pagination.svg">
+  </a>
+  <a href="https://prettier.io">
+    <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="Code Style: Prettier">
+  </a>
+  <a href="https://bundlephobia.com/package/react-use-pagination@latest">
+    <img src="https://badgen.net/bundlephobia/minzip/react-use-pagination@latest">
+  </a>
+</p>
 
 ## ✨ Features
 
@@ -101,13 +114,20 @@ type PaginationState = {
 ```
 
 ### Client Side Pagination
+
 `startIndex` and `endIndex` can be used to implement client-side pagination. The simplest possible usage is to pass these properties directly to `Array.slice`:
 
 ```jsx
-  const [data] = React.useState(["apple", "banana", "cherry"]);
-  const { startIndex, endIndex } = usePagination({ totalItems: data.length, initialPageSize: 1 });
-  
-  return <ul>{data.slice(startIndex, endIndex).map(item => <li>{item}</li>)}</ul>
+const [data] = React.useState(["apple", "banana", "cherry"]);
+const { startIndex, endIndex } = usePagination({ totalItems: data.length, initialPageSize: 1 });
+
+return (
+    <ul>
+        {data.slice(startIndex, endIndex).map((item) => (
+            <li>{item}</li>
+        ))}
+    </ul>
+);
 ```
 
 ### Server Side Pagination
@@ -115,17 +135,30 @@ type PaginationState = {
 `startIndex` and `pageSize` can be used to implement a standard limit/offset (also known as top/skip) type of pagination:
 
 ```jsx
-  // Keep track of length separately from data, since data fetcher depends on pagination state
-  const [length, setLength] = React.useState(0);
-  
-  // Pagination hook
-  const { startIndex, pageSize } = usePagination({ totalItems: length, initialPageSize: 1 });
-  
-  // Fetch Data
-  const [_, data] = usePromise(React.useCallback(() => fetchUsers({ offset: startIndex, limit: pageSize }), [startIndex, pageSize]));
-  
-  // When data changes, update length
-  React.useEffect(() => { setLength(data.length) }, [data]);
-  
-  return <ul>{data.slice(startIndex, endIndex).map(item => <li>{item}</li>)}</ul>
+// Keep track of length separately from data, since data fetcher depends on pagination state
+const [length, setLength] = React.useState(0);
+
+// Pagination hook
+const { startIndex, pageSize } = usePagination({ totalItems: length, initialPageSize: 1 });
+
+// Fetch Data
+const [_, data] = usePromise(
+    React.useCallback(
+        () => fetchUsers({ offset: startIndex, limit: pageSize }),
+        [startIndex, pageSize]
+    )
+);
+
+// When data changes, update length
+React.useEffect(() => {
+    setLength(data.length);
+}, [data]);
+
+return (
+    <ul>
+        {data.slice(startIndex, endIndex).map((item) => (
+            <li>{item}</li>
+        ))}
+    </ul>
+);
 ```
