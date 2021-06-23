@@ -97,7 +97,7 @@ export function usePagination({
             dispatch({ type: "PREV" });
         }, [dispatch]),
         setPageSize: useCallback(
-            (pageSize: number, nextPage: number = 0) => {
+            (pageSize: number, nextPage = 0) => {
                 setPageSize(pageSize);
                 dispatch({ type: "SET", page: nextPage });
             },

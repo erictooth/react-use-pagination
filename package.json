@@ -32,6 +32,7 @@
         "build:cjs": "esbuild src/index.ts --sourcemap --format=cjs --outfile=dist-node/react-use-pagination.js",
         "build:esm": "esbuild src/index.ts --sourcemap --format=esm --outfile=dist-module/react-use-pagination.mjs",
         "build:types": "tsc --emitDeclarationOnly --declaration --declarationMap false --declarationDir dist-types",
+        "lint": "eslint src  --ext=ts",
         "prepack": "npm run build",
         "typecheck": "tsc --noEmit"
     },
@@ -39,8 +40,20 @@
         "react": "^16.8.0 || ^17 || ^18"
     },
     "devDependencies": {
+        "@erictooth/eslint-config": "^3.0.0",
+        "@erictooth/prettier-config": "^4.0.0",
         "@types/react": "^17.0.11",
         "esbuild": "^0.12.9",
+        "eslint": "^7.29.0",
+        "prettier": "^2.3.1",
         "typescript": "^4"
-    }
+    },
+    "eslintConfig": {
+        "extends": [
+            "@erictooth/eslint-config",
+            "@erictooth/eslint-config/typescript",
+            "@erictooth/eslint-config/react"
+        ]
+    },
+    "prettier": "@erictooth/prettier-config"
 }
