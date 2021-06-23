@@ -34,7 +34,7 @@
         "build:types": "tsc --emitDeclarationOnly --declaration --declarationMap false --declarationDir dist-types",
         "lint": "eslint src  --ext=ts,tsx",
         "prepack": "npm run build",
-        "test": "jest --coverage",
+        "test": "jest src --coverage",
         "typecheck": "tsc --noEmit"
     },
     "peerDependencies": {
