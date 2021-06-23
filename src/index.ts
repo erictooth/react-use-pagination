@@ -1,16 +1,17 @@
-import * as React from "react";
+import { useCallback, useMemo, useState, useReducer, ReactNode } from "react";
 
-export const getPreviousEnabled = (currentPage: number) => currentPage > 0;
+export const getPreviousEnabled = (currentPage: number): boolean => currentPage > 0;
 
-export const getNextEnabled = (currentPage: number, totalPages: number) =>
+export const getNextEnabled = (currentPage: number, totalPages: number): boolean =>
     currentPage + 1 < totalPages;
 
-export const getTotalPages = (totalItems: number, pageSize: number) =>
+export const getTotalPages = (totalItems: number, pageSize: number): number =>
     Math.ceil(totalItems / pageSize);
 
-export const getStartIndex = (pageSize: number, currentPage: number) => pageSize * currentPage;
+export const getStartIndex = (pageSize: number, currentPage: number): number =>
+    pageSize * currentPage;
 
-export const getEndIndex = (pageSize: number, currentPage: number, totalItems: number) => {
+export const getEndIndex = (pageSize: number, currentPage: number, totalItems: number): number => {
     const lastPageEndIndex = pageSize * (currentPage + 1);
 
     if (lastPageEndIndex > totalItems) {
@@ -39,10 +40,7 @@ export const getPaginationState = ({
     };
 };
 
-type CurrentPageReducerActions = React.Reducer<
-    number,
-    { type: "SET"; page: number } | { type: "NEXT" | "PREV" }
->;
+type CurrentPageReducerActions = { type: "SET"; page: number } | { type: "NEXT" | "PREV" };
 
 export function usePagination({
     totalItems = 0,
@@ -53,11 +51,10 @@ export function usePagination({
     initialPage?: number;
     initialPageSize?: number;
 } = {}) {
-    const [pageSize, setPageSize] = React.useState<number>(initialPageSize);
+    const [pageSize, setPageSize] = useState<number>(initialPageSize);
 
-    const [currentPage, dispatch] = React.useReducer<CurrentPageReducerActions>(
-        // @ts-ignore
-        (state = initialPage, action = {}) => {
+    const [currentPage, dispatch] = useReducer(
+        (state = initialPage, action: CurrentPageReducerActions) => {
             switch (action.type) {
                 case "SET":
                     return action.page;
@@ -78,28 +75,34 @@ export function usePagination({
         initialPage
     );
 
-    const paginationState = React.useMemo(
+    const paginationState = useMemo(
         () => getPaginationState({ totalItems, pageSize, currentPage }),
         [totalItems, pageSize, currentPage]
     );
 
     return {
-        setPage: React.useCallback((page: number) => {
-            dispatch({
-                type: "SET",
-                page,
-            });
-        }, []),
-        setNextPage: React.useCallback(() => {
+        setPage: useCallback(
+            (page: number) => {
+                dispatch({
+                    type: "SET",
+                    page,
+                });
+            },
+            [dispatch]
+        ),
+        setNextPage: useCallback(() => {
             dispatch({ type: "NEXT" });
-        }, []),
-        setPreviousPage: React.useCallback(() => {
+        }, [dispatch]),
+        setPreviousPage: useCallback(() => {
             dispatch({ type: "PREV" });
-        }, []),
-        setPageSize: React.useCallback((pageSize: number, nextPage: number = 0) => {
-            setPageSize(pageSize);
-            dispatch({ type: "SET", page: nextPage });
-        }, []),
+        }, [dispatch]),
+        setPageSize: useCallback(
+            (pageSize: number, nextPage: number = 0) => {
+                setPageSize(pageSize);
+                dispatch({ type: "SET", page: nextPage });
+            },
+            [setPageSize]
+        ),
         currentPage,
         pageSize,
         totalItems,
@@ -107,8 +110,8 @@ export function usePagination({
     };
 }
 
-export type PaginationProps = {
-    children: (args: ReturnType<typeof usePagination>) => React.ReactNode;
+type PaginationProps = {
+    children: (arg0: ReturnType<typeof usePagination>) => ReactNode;
     totalItems?: number;
     initialPage?: number;
     initialPageSize: number;

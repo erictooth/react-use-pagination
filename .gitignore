@@ -2,7 +2,5 @@ node_modules
 .DS_Store
 .vscode
 coverage
-dist
-flow-coverage
-pkg/
+dist-*
 package-lock.json

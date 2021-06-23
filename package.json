@@ -11,50 +11,36 @@
     "author": "erictooth",
     "license": "MIT",
     "repository": {
-      "type": "git",
-      "url": "https://github.com/erictooth/react-use-pagination.git"
+        "type": "git",
+        "url": "https://github.com/erictooth/react-use-pagination.git"
     },
     "homepage": "https://github.com/erictooth/react-use-pagination/blob/master/README.md",
     "bugs": {
-      "url": "https://github.com/erictooth/react-use-pagination/issues"
+        "url": "https://github.com/erictooth/react-use-pagination/issues"
     },
     "sideEffects": false,
+    "main": "dist-node/react-use-pagination.js",
+    "module": "dist-module/react-use-pagination.mjs",
+    "types": "dist-types/index.d.ts",
+    "files": [
+        "dist-module",
+        "dist-node",
+        "dist-types"
+    ],
     "scripts": {
-        "build": "pika-pack build"
-    },
-    "@pika/pack": {
-        "pipeline": [
-            [
-                "@pika/plugin-ts-standard-pkg"
-            ],
-            [
-                "@pika/plugin-build-node"
-            ],
-            [
-                "@pika/plugin-build-web"
-            ],
-            [
-                "pika-plugin-typedefs-to-flow"
-            ]
-        ]
+        "build": "npm run build:cjs && npm run build:esm && npm run build:types",
+        "build:cjs": "esbuild src/index.ts --sourcemap --format=cjs --outfile=dist-node/react-use-pagination.js",
+        "build:esm": "esbuild src/index.ts --sourcemap --format=esm --outfile=dist-module/react-use-pagination.mjs",
+        "build:types": "tsc --emitDeclarationOnly --declaration --declarationMap false --declarationDir dist-types",
+        "prepack": "npm run build",
+        "typecheck": "tsc --noEmit"
     },
     "peerDependencies": {
         "react": "^16.8.0 || ^17 || ^18"
     },
     "devDependencies": {
-        "@babel/core": "^7.2.2",
-        "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
-        "@babel/preset-env": "^7.3.1",
-        "@babel/preset-react": "^7.0.0",
-        "@pika/pack": "^0.5.0",
-        "@pika/plugin-build-node": "^0.9.2",
-        "@pika/plugin-build-types": "^0.9.2",
-        "@pika/plugin-build-web": "^0.9.2",
-        "@pika/plugin-ts-standard-pkg": "^0.9.2",
-        "@types/react": "^17.0.3",
-        "flowgen": "^1.13.0",
-        "pika-plugin-typedefs-to-flow": "^0.0.3",
-        "react": "^16.8.0",
-        "typescript": "^4.2.4"
+        "@types/react": "^17.0.11",
+        "esbuild": "^0.12.9",
+        "typescript": "^4"
     }
 }
