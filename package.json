@@ -34,19 +34,23 @@
         "build:types": "tsc --emitDeclarationOnly --declaration --declarationMap false --declarationDir dist-types",
         "lint": "eslint src  --ext=ts",
         "prepack": "npm run build",
+        "test": "jest --coverage",
         "typecheck": "tsc --noEmit"
     },
     "peerDependencies": {
         "react": "^16.8.0 || ^17 || ^18"
     },
     "devDependencies": {
-        "@erictooth/eslint-config": "^3.0.0",
-        "@erictooth/prettier-config": "^4.0.0",
-        "@erictooth/semantic-release-npm-github-config": "^1.0.3",
-        "@types/react": "^17.0.11",
+        "@erictooth/eslint-config": "^3",
+        "@erictooth/prettier-config": "^4",
+        "@erictooth/semantic-release-npm-github-config": "^1",
+        "@types/jest": "^26",
+        "@types/react": "^17",
         "esbuild": "^0.12.9",
-        "eslint": "^7.29.0",
-        "prettier": "^2.3.1",
+        "eslint": "^7",
+        "jest": "^27",
+        "prettier": "^2",
+        "ts-jest": "^27",
         "typescript": "^4"
     },
     "eslintConfig": {
@@ -62,5 +66,8 @@
         "branches": [
             "master"
         ]
+    },
+    "jest": {
+        "preset": "ts-jest"
     }
 }
