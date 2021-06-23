@@ -100,24 +100,14 @@ type PaginationState = {
 };
 ```
 
-### UI Side Pagination
-
-`startIndex` and `endIndex` can be used to implement UI-side pagination. The simplest possible usage is to pass these properties directly to `Array.slice`:
+### Client Side Pagination
+`startIndex` and `endIndex` can be used to implement client-side pagination. The simplest possible usage is to pass these properties directly to `Array.slice`:
 
 ```jsx
-const [data] = React.useState(["apple", "banana", "cherry"]);
-const { startIndex, endIndex } = React.usePagination({
-    totalItems: data.length,
-    initialPageSize: 1,
-});
-
-return (
-    <ul>
-        {data.slice(startIndex, endIndex).map((item) => (
-            <li>{item}</li>
-        ))}
-    </ul>
-);
+  const [data] = React.useState(["apple", "banana", "cherry"]);
+  const { startIndex, endIndex } = usePagination({ totalItems: data.length, initialPageSize: 1 });
+  
+  return <ul>{data.slice(startIndex, endIndex).map(item => <li>{item}</li>)}</ul>
 ```
 
 ### Server Side Pagination
@@ -125,30 +115,17 @@ return (
 `startIndex` and `pageSize` can be used to implement a standard limit/offset (also known as top/skip) type of pagination:
 
 ```jsx
-// Keep track of length separately from data, since data fetcher depends on pagination state
-const [length, setLength] = React.useState(0);
-
-// Pagination hook
-const { startIndex, pageSize } = React.usePagination({ totalItems: length, initialPageSize: 1 });
-
-// Fetch Data
-const [_, data] = usePromise(
-    React.useCallback(() => fetchUsers({ offset: startIndex, limit: pageSize }), [
-        startIndex,
-        pageSize,
-    ])
-);
-
-// When data changes, update length
-React.useEffect(() => {
-    setLength(data.length);
-}, [data]);
-
-return (
-    <ul>
-        {data.slice(startIndex, endIndex).map((item) => (
-            <li>{item}</li>
-        ))}
-    </ul>
-);
+  // Keep track of length separately from data, since data fetcher depends on pagination state
+  const [length, setLength] = React.useState(0);
+  
+  // Pagination hook
+  const { startIndex, pageSize } = usePagination({ totalItems: length, initialPageSize: 1 });
+  
+  // Fetch Data
+  const [_, data] = usePromise(React.useCallback(() => fetchUsers({ offset: startIndex, limit: pageSize }), [startIndex, pageSize]));
+  
+  // When data changes, update length
+  React.useEffect(() => { setLength(data.length) }, [data]);
+  
+  return <ul>{data.slice(startIndex, endIndex).map(item => <li>{item}</li>)}</ul>
 ```
