@@ -32,7 +32,7 @@
         "build:cjs": "esbuild src/index.ts --sourcemap --format=cjs --outfile=dist-node/react-use-pagination.js",
         "build:esm": "esbuild src/index.ts --sourcemap --format=esm --outfile=dist-module/react-use-pagination.mjs",
         "build:types": "tsc --emitDeclarationOnly --declaration --declarationMap false --declarationDir dist-types",
-        "lint": "eslint src  --ext=ts",
+        "lint": "eslint src  --ext=ts,tsx",
         "prepack": "npm run build",
         "test": "jest --coverage",
         "typecheck": "tsc --noEmit"

@@ -1,4 +1,4 @@
-import { getPaginationState } from "./index";
+import { getPaginationState } from "../getPaginationState";
 
 const DEFAULT_STATE = {
     totalItems: 100,
