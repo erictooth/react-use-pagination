@@ -7,86 +7,97 @@ A React hook to help manage pagination state and calculations.
 Try the other libaries in the series! [React Stateful Tabs](https://github.com/erictooth/react-stateful-tabs), [React Smart Promise](https://github.com/erictooth/react-smart-promise), [React Accessible Form](https://github.com/erictooth/react-accessible-form)
 
 ## ✨ Features
-- 🛠 State-only hook & callbacks, you provide your own UI controls
-- 📦 Compatible with any pagination method like [GraphQL Relay Cursor](https://facebook.github.io/relay/graphql/connections.htm), OData, etc.
-- ⚡️ Works with both server side and client side pagination
-- 🐜 Simple and lightweight — less than 2KB gzipped
+
+-   🛠 State-only hook & callbacks, you provide your own UI controls
+-   📦 Compatible with any pagination method like [GraphQL Relay Cursor](https://facebook.github.io/relay/graphql/connections.htm), OData, etc.
+-   ⚡️ Works with both server side and client side pagination
+-   🐜 Simple and lightweight — less than 2KB gzipped
 
 ## Example
+
 ```jsx
 import { usePagination } from "react-use-pagination";
 
 function App() {
-  const [data] = React.useState([]); // <- your data
-  
-  const {
-    currentPage, 
-    totalPages, 
-    setNextPage, 
-    setPreviousPage,
-    nextEnabled,
-    previousEnabled,
-    startIndex,
-    endIndex
-  } = usePagination({ totalItems: data.length });
-  
-  return <div>
-    <MyDataTable data={data.slice(startIndex, endIndex)} />
-    
-    <button onClick={setPreviousPage} disabled={!previousEnabled}>Previous Page</button>
-    <span>Current Page: {currentPage} of {totalPages}</span>
-    <button onClick={setNextPage}  disabled={!nextEnabled}>Next Page</button>
-  </div>;
+    const [data] = React.useState([]); // <- your data
+
+    const {
+        currentPage,
+        totalPages,
+        setNextPage,
+        setPreviousPage,
+        nextEnabled,
+        previousEnabled,
+        startIndex,
+        endIndex,
+    } = usePagination({ totalItems: data.length });
+
+    return (
+        <div>
+            <MyDataTable data={data.slice(startIndex, endIndex)} />
+
+            <button onClick={setPreviousPage} disabled={!previousEnabled}>
+                Previous Page
+            </button>
+            <span>
+                Current Page: {currentPage} of {totalPages}
+            </span>
+            <button onClick={setNextPage} disabled={!nextEnabled}>
+                Next Page
+            </button>
+        </div>
+    );
 }
 ```
 
 ## API
+
 `const paginationState = usePagination(options);`
 
 ### `options`
 
 ```ts
 type Options = {
-  totalItems: number,
-  initialPage?: number, // (default: 0)
-  initialPageSize?: number, // (default: 0)
-}
+    totalItems: number;
+    initialPage?: number; // (default: 0)
+    initialPageSize?: number; // (default: 0)
+};
 ```
 
 ### `paginationState`
 
 ```ts
 type PaginationState = {
-  // The current page
-  currentPage: number,
-  
-  // The first index of the page window
-  startIndex: number,
-  
-  // The last index of the page window
-  endIndex: number,
-  
-  // Whether the next button should be enabled
-  nextEnabled: number,
-  
-  // Whether the previous button should be enabled
-  previousEnabled: number,
-  
-  // The total page size
-  pageSize: number,
- 
-  // Jump directly to a page
-  setPage: (page: number) => void,
-  
-  // Jump to the next page
-  setNextPage: () => void,
-  
-  // Jump to the previous page
-  setPreviousPage: () => void,
-  
-  // Set the page size
-  setPageSize: (pageSize: number, nextPage?: number = 0) => void
-}
+    // The current page
+    currentPage: number;
+
+    // The first index of the page window
+    startIndex: number;
+
+    // The last index of the page window
+    endIndex: number;
+
+    // Whether the next button should be enabled
+    nextEnabled: number;
+
+    // Whether the previous button should be enabled
+    previousEnabled: number;
+
+    // The total page size
+    pageSize: number;
+
+    // Jump directly to a page
+    setPage: (page: number) => void;
+
+    // Jump to the next page
+    setNextPage: () => void;
+
+    // Jump to the previous page
+    setPreviousPage: () => void;
+
+    // Set the page size
+    setPageSize: (pageSize: number, nextPage?: number = 0) => void;
+};
 ```
 
 ### Client Side Pagination
@@ -100,6 +111,7 @@ type PaginationState = {
 ```
 
 ### Server Side Pagination
+
 `startIndex` and `pageSize` can be used to implement a standard limit/offset (also known as top/skip) type of pagination:
 
 ```jsx

@@ -1,7 +1,4 @@
 {
     "presets": ["@babel/preset-react"],
-    "plugins": [
-        "@babel/plugin-transform-flow-comments",
-        "@babel/plugin-proposal-object-rest-spread"
-    ]
+    "plugins": ["@babel/plugin-proposal-object-rest-spread"]
 }
