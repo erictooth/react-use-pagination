@@ -42,6 +42,7 @@
     "devDependencies": {
         "@erictooth/eslint-config": "^3.0.0",
         "@erictooth/prettier-config": "^4.0.0",
+        "@erictooth/semantic-release-npm-github-config": "^1.0.3",
         "@types/react": "^17.0.11",
         "esbuild": "^0.12.9",
         "eslint": "^7.29.0",
@@ -55,5 +56,11 @@
             "@erictooth/eslint-config/react"
         ]
     },
-    "prettier": "@erictooth/prettier-config"
+    "prettier": "@erictooth/prettier-config",
+    "release": {
+        "extends": "@erictooth/semantic-release-npm-github-config",
+        "branches": [
+            "master"
+        ]
+    }
 }

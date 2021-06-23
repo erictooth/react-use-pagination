@@ -1,0 +1,73 @@
+name: Release
+on:
+    push:
+        branches:
+            - master
+jobs:
+    test:
+        name: Test & Build on Node ${{ matrix.node }} and ${{ matrix.os }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                node: [16]
+                os:
+                    - ubuntu-latest
+                    - windows-latest
+                    - macOS-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Setup Node
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node }}
+            - name: Install npm dependencies
+              run: npm i
+              env:
+                  CI: true
+            - name: Run tests
+              run: npm run test --if-present
+            - name: Verify build succeeds
+              run: npm run prepack --if-present
+    lint:
+        name: Lint & Typecheck
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Setup Node
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 16
+            - name: Install npm dependencies
+              run: npm i
+              env:
+                  CI: true
+            - name: lint
+              run: npm run lint --if-present
+            - name: typecheck
+              run: npm run typecheck --if-present
+    release:
+        name: Release
+        needs:
+            - test
+            - lint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: Setup Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 16
+            - name: Install dependencies
+              run: npm i
+              env:
+                  CI: true
+            - name: Release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: npx semantic-release --dry-run
