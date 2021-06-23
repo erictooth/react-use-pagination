@@ -19,7 +19,18 @@ export const getEndIndex = (pageSize: number, currentPage: number, totalItems: n
     return lastPageEndIndex - 1;
 };
 
+export const limitPageBounds =
+    (totalItems: number, pageSize: number) =>
+    (page: number): number =>
+        Math.min(Math.max(page, 0), getTotalPages(totalItems, pageSize) - 1);
+
 export type PaginationState = {
+    totalItems: number;
+    pageSize: number;
+    currentPage: number;
+};
+
+export type PaginationMeta = {
     totalPages: number;
     startIndex: number;
     endIndex: number;
@@ -27,15 +38,11 @@ export type PaginationState = {
     nextEnabled: boolean;
 };
 
-export const getPaginationState = ({
+export const getPaginationMeta = ({
     totalItems,
     pageSize,
     currentPage,
-}: {
-    totalItems: number;
-    pageSize: number;
-    currentPage: number;
-}): PaginationState => {
+}: PaginationState): PaginationMeta => {
     const totalPages = getTotalPages(totalItems, pageSize);
     return {
         totalPages,

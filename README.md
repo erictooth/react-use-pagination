@@ -14,6 +14,7 @@
   <a href="https://prettier.io">
     <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="Code Style: Prettier">
   </a>
+  <img src="https://img.shields.io/badge/coverage-100%25-brightgreen.svg" alt="100% coverage">
   <a href="https://bundlephobia.com/package/react-use-pagination@latest">
     <img src="https://badgen.net/bundlephobia/minzip/react-use-pagination@latest">
   </a>
