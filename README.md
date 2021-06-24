@@ -64,6 +64,9 @@ function App() {
 }
 ```
 
+### Detailed Example
+[Try out an example on CodeSandbox](https://codesandbox.io/s/react-use-pagination-example-30jy6) that showcases full server side pagination
+
 ## API
 
 `const paginationState = usePagination(options);`
@@ -132,6 +135,7 @@ return (
 ```
 
 ### Server Side Pagination
+You can find a complete working example in the [Detailed Example](https://github.com/erictooth/react-use-pagination#detailed-example) section
 
 `startIndex` and `pageSize` can be used to implement a standard limit/offset (also known as top/skip) type of pagination:
 
