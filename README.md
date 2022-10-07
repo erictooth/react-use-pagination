@@ -127,7 +127,7 @@ const { startIndex, endIndex } = usePagination({ totalItems: data.length, initia
 
 return (
     <ul>
-        {data.slice(startIndex, endIndex).map((item) => (
+        {data.slice(startIndex, endIndex + 1).map((item) => (
             <li>{item}</li>
         ))}
     </ul>
@@ -161,7 +161,7 @@ React.useEffect(() => {
 
 return (
     <ul>
-        {data.slice(startIndex, endIndex).map((item) => (
+        {data.map((item) => (
             <li>{item}</li>
         ))}
     </ul>
